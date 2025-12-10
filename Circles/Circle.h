@@ -1,6 +1,6 @@
 #pragma once
 
-
+//This is the class constructor, I think...
 class Circle
 {
 
