@@ -13,6 +13,7 @@
 // Screen dimensions
 int gScreenWidth{ 800 };
 int gScreenHeight{ 600 };
+bool cooldown = false;
 
 // Delay to slow things down
 int gTimeDelayMS{ 10 };
@@ -44,8 +45,8 @@ int main()
 		{
 			//Creates a circle on the screen using the set values
 
-			ChangeColour(circle.GetR(), circle.GetG(), circle.GetB());
-			DrawCircle(circle.X_axis, circle.Y_axis, circle.Radius);
+			circle.Draw();
+			circle.Update();
 
 			if (IsButtonPressed(EButton::eLeft))
 			{
@@ -58,44 +59,10 @@ int main()
 				circle.Y_axis = MouseY;
 			}
 
-			//Sets initial direction?
-			circle.Y_axis += circle.Y_Dir;
-			circle.X_axis += circle.X_Dir;
+			
+			
 
-			if (circle.Y_axis + circle.Radius * 2 >= gScreenHeight)
-			{
-				//Changes the variable to be negative and move backwards
-				circle.Y_Dir = -circle.Y_Dir;
-				new_circle = true;
 
-			}
-			else if (circle.Y_axis < 0)
-			{
-				circle.Y_Dir = -circle.Y_Dir;
-				// Modifying the circle while iterating
-
-			}
-
-			if (circle.X_axis + circle.Radius * 2 >= gScreenWidth)
-			{
-				//Changes the variable to be negative and move backwards
-				circle.X_Dir = -circle.X_Dir;
-				new_circle = true;
-			}
-			else if (circle.X_axis < 0)
-			{
-				circle.X_Dir = -circle.X_Dir;
-			}
-
-			// randomly changes direction?
-			if (rand() % 100 == 0)
-			{
-				circle.X_Dir = -circle.X_Dir;
-			}
-			if (rand() % 100 == 0)
-			{
-				circle.Y_Dir = -circle.Y_Dir;
-			}
 		}
 
 
@@ -103,62 +70,21 @@ int main()
 		{
 			
 			Circle newCircle;
-			newCircle.Radius = rand() % 20;
-			newCircle.X_axis = rand() % gScreenWidth - newCircle.Radius * 2 - newCircle.Radius * 2;
-			newCircle.Y_axis = rand() % gScreenHeight - newCircle.Radius * 2 - newCircle.Radius * 2;
-			newCircle.Y_Dir = rand() % 20;
 
-			if (rand() % 2 == 0)
-			{
-				newCircle.Y_Dir = -newCircle.Y_Dir;
-			}
-
-			newCircle.X_Dir = rand() % 20;
-			if (rand() % 2 == 0)
-			{
-				newCircle.X_Dir = -newCircle.X_Dir;
-			}
-			newCircle.GetR();
-			newCircle.GetG();
-			newCircle.GetB();
-			new_circle = false;
 
 			circles.push_back(newCircle);
 		}
-		else if (IsButtonPressed(EButton::eRight) && circles.size() < Max_Circles)
+
+		if (IsButtonPressed(EButton::eRight) && circles.size() < Max_Circles && !cooldown)
 		{
+			
 			Circle newCircle;
-			newCircle.Radius = rand() % 20;
-			newCircle.X_axis = rand() % gScreenWidth - newCircle.Radius * 2 - newCircle.Radius * 2;
-			newCircle.Y_axis = rand() % gScreenHeight - newCircle.Radius * 2 - newCircle.Radius * 2;
-			newCircle.Y_Dir = rand() % 20;
-
-			if (rand() % 2 == 0)
-			{
-				newCircle.Y_Dir = -newCircle.Y_Dir;
-			}
-
-			newCircle.X_Dir = rand() % 20;
-			if (rand() % 2 == 0)
-			{
-				newCircle.X_Dir = -newCircle.X_Dir;
-			}
-			newCircle.GetR();
-			newCircle.GetG();
-			newCircle.GetB();
-			new_circle = false;
-
 			circles.push_back(newCircle);
+			cooldown = true;
 		}
-		
-
-		if (IsButtonPressed(EButton::eLeft))
+		else if (IsButtonPressed(EButton::eRight) == false)
 		{
-			
-
-			
-
-			
+			cooldown = false;
 		}
 
 
